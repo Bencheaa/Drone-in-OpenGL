@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glaux.h>
+#include <math.h>
 
 
 void myinit(void);
@@ -10,7 +11,6 @@ void CALLBACK myReshape(GLsizei w, GLsizei h);
 static GLfloat rotX = 20.0; 
 static GLfloat inaltime = 0.0;
 static GLfloat unghi_elice = 0.0;
-
 static int spin = 0;
 
 void CALLBACK movelight(AUX_EVENTREC* event)
@@ -45,13 +45,15 @@ void myinit(void) {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    glDepthFunc(GL_LESS);
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
     glEnable(GL_DEPTH_TEST);
 }
 
 
 void CALLBACK display(void) {
-    GLfloat position[] = { 0.0, 0.0, 1.5, 1.0 };
+    GLfloat position[] = { 0.0, 3.0, 1.5, 1.0 };
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
     glLoadIdentity();
 
@@ -59,12 +61,9 @@ void CALLBACK display(void) {
     glRotatef(rotX, 1.0, 0.0, 0.0);
     
     glPushMatrix();
-    glRotated((GLdouble)spin, 1.0, 0.0, 0.0);//rotatia sursei
+    glRotated((GLdouble)spin, 2.0, 0.3, 0.0);
     glRotated(0.0, 1.0, 0.0, 0.0);
-    glLightfv(GL_LIGHT0, GL_POSITION, position); 	// functie apelata
-    // doar dupa ce s-a stabilit matricea de rotaie
-
-    // se deseneaza cubul corespunzând pozitiei sursei
+    glLightfv(GL_LIGHT0, GL_POSITION, position); 	
     glTranslated(0.0, 0.0, 1.5);
     glDisable(GL_LIGHTING);
     glColor3f(0.0, 1.0, 1.0);
@@ -72,15 +71,41 @@ void CALLBACK display(void) {
     glEnable(GL_LIGHTING);
     glPopMatrix();
 
+    /*
+   //podeaua
+   glDisable(GL_LIGHTING);
+   glColor3f(0.3, 0.3, 0.3);
+   glBegin(GL_QUADS);
+   glVertex3f(-5, -2.0, -5);
+   glVertex3f(5, -2.0, -5);
+   glVertex3f(5, -2.0, 5);
+   glVertex3f(-5, -2.0, 5);
+   glEnd();
+   glEnable(GL_LIGHTING);
+
+   //umbra dronei
+   glDisable(GL_LIGHTING);
+   glPushMatrix();
+   glTranslatef(0.0, -1.99, 0.0);
+   glColor3f(0.1, 0.1, 0.1);
+   glRotatef(90, 1, 0, 0);
+   GLUquadricObj* q = gluNewQuadric();
+   float razaUmbra = 0.6 / (1.0 + inaltime * 0.2);
+   gluDisk(q, 0.0, razaUmbra, 32, 1);
+   gluDeleteQuadric(q);
+   glPopMatrix();
+   glEnable(GL_LIGHTING);
+
+   */
+
 	//corpul dronei
     glPushMatrix();
     glColor3f(0.0, 0.5, 1.0);
-    glRotatef(0.0, 0.0, 0.0, 0.0);
     glTranslatef(0.0, -0.9, 0.0);
     auxSolidCylinder(0.5, 0.4);
 
-	glRotatef(90.0, 5.0, 0.0, 0.0);
-    glTranslatef(0.0, 0.0, -1.0);
+    glRotatef(-90.0, 5.0, 0.0, 0.0);
+    glTranslatef(0.0, 0.0, 1.0);
     GLUquadricObj* quad = gluNewQuadric(); 
     gluDisk(quad, 0.0, 0.5, 32, 1);       
 
@@ -143,10 +168,7 @@ void CALLBACK myReshape(GLsizei w, GLsizei h) {
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
-   
     gluPerspective(45.0, (GLfloat)w / (GLfloat)h, 1.0, 100.0);
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
