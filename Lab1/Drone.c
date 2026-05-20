@@ -103,22 +103,14 @@ void deseneazaDrona(){
 
     glPopMatrix();
 
-    //bratul 1
+	//bratele dronei
     glPushMatrix();
     //glColor3f(0.4, 0.4, 0.4);
     glRotatef(0, 0.0, 1.0, 0.0);
-    glTranslatef(0.0, 0.0, 0.0);
     auxSolidBox(3.0, 0.1, 0.2);
-    glPopMatrix();
-
-    //bratul 2
-    glPushMatrix();
-    //glColor3f(0.4, 0.4, 0.4);
     glRotatef(90, 0.0, 1.0, 0.0);
-    glTranslatef(0.0, 0.0, 0.0);
     auxSolidBox(3.0, 0.1, 0.2);
     glPopMatrix();
-
 
 	//elice bratul 1
     glPushMatrix();
