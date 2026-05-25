@@ -100,7 +100,6 @@ void deseneazaDrona(){
     glTranslatef(0.0, 0.0, 1.0);
     GLUquadricObj* quad = gluNewQuadric();
     gluDisk(quad, 0.0, 0.5, 32, 1);
-
     glPopMatrix();
 
 	//bratele dronei
@@ -153,9 +152,9 @@ void myinit(void) {
 void CALLBACK display(void) {
     GLfloat matUmbra[4][4];
     GLfloat punctePlan[3][3] = {
-    { 50.0f, -1.99f,  50.0f}, 
-    { 50.0f, -1.99f, -50.0f},
-    {-50.0f, -1.99f, -50.0f}  
+    { 50.0, -1.99,  50.0}, 
+    { 50.0, -1.99, -50.0},
+    {-50.0, -1.99, -50.0}  
     };
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
